@@ -10,6 +10,7 @@
     <form @submit.prevent="handleSubmit" ref="form" class="form-content">
       <FormField
         v-for="field in config.fields"
+        ref="formFieldRef"
         :key="field.name"
         :field="field"
         :value="formData[field.name]"
@@ -50,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive } from 'vue'
+import { ref, watch, reactive, useTemplateRef } from 'vue'
 import FormField from './FormField.vue'
 import type { FormConfig, FormData } from './Types'
 
@@ -70,6 +71,7 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const form = ref<HTMLFormElement>()
+const formFieldRef = useTemplateRef<typeof FormField>('formField')
 const formData = reactive<FormData>({ ...props.modelValue })
 const submitting = ref(props.submitting || false)
 
@@ -90,9 +92,11 @@ const updateFieldValue = (fieldName: string, value: any) => {
 
 const handleSubmit = (event: SubmitEvent) => {
   let isValid = true
+
   if (form.value) {
     const listInput = form.value.getElementsByTagName('input')
     const listTextarea = form.value.getElementsByTagName('textarea')
+
     const combinedArray = [...listInput, ...listTextarea]
     for (let index = 0; index < combinedArray.length; index++) {
       const element = combinedArray[index]

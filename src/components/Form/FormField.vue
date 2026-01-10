@@ -27,9 +27,7 @@
       </component>
 
       <div v-else class="checkbox">
-        <!-- Temporary solution before checkbox component will be implemented 
-            to save styling consistency -->
-
+        <!-- Temporary solution to save styling consistency before checkbox component will be implemented -->
         <input
           :id="field.name"
           type="checkbox"
@@ -45,11 +43,12 @@
         </label>
       </div>
     </slot>
+    <div v-if="error" class="field-error">{{ error }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { FormField } from './Types'
 import useValidation from '@/composables/useFieldValidation'
 
@@ -110,7 +109,6 @@ const updateValue = (event: Event) => {
     return
   }
 
-  validate(newValue)
   emit('update:value', newValue)
 }
 
@@ -118,10 +116,19 @@ const validate = (value: unknown) => {
   error.value = ''
 
   const validation = useValidation(value, props.field)
-
   error.value = validation.error
+
+  console.log(validation)
+
   return validation.isValid
 }
+
+watch(
+  () => props.value,
+  (newValue) => {
+    validate(newValue)
+  },
+)
 </script>
 
 <style scoped lang="scss">
@@ -142,7 +149,7 @@ const validate = (value: unknown) => {
 
   .checkbox {
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
     gap: 0.5rem;
   }
 
