@@ -1,15 +1,18 @@
 <template>
   <FormGenerator
-    @submit="console.log('submit-app')"
-    @cancel="console.log('cancel-app')"
+    @submit="saveToStore"
+    @cancel="deleteFromStore"
     :config="formConfig"
     :model-value="formData"
   ></FormGenerator>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import FormGenerator from '../components/Form/FormGenerator.vue'
 import type { FormConfig, FormData } from '../components/Form/Types'
+
+import { useStore } from 'vuex'
+const store = useStore()
 
 const formData = reactive<FormData>({
   firstName: '',
@@ -19,6 +22,7 @@ const formData = reactive<FormData>({
   sex: '',
 })
 const formConfig: FormConfig = {
+  id: 'about-form',
   title: 'Информация о себе',
   description: 'Напишите побольше о себе',
   fields: [
@@ -77,5 +81,23 @@ const formConfig: FormConfig = {
     text: 'Сбросить',
   },
 }
+
+const saveToStore = async (data: FormData) => {
+  await store.commit('saveFormData', {
+    formId: formConfig.id,
+    data: data,
+    isValid: true,
+  })
+}
+
+const deleteFromStore = async () => {
+  await store.commit('clearForm', formConfig.id)
+}
+
+onMounted(() => {
+  if (store.getters.getFormData(formConfig.id)) {
+    formData.value = store.getters.getFormData(formConfig.id)
+  }
+})
 </script>
 <style lang="scss" scoped></style>

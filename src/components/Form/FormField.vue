@@ -35,7 +35,6 @@
           :value="value"
           @input="updateValue"
           @change="updateValue"
-          class="checkbox-input"
         />
         <label :for="field.name" class="field-label">
           {{ field.label }}
@@ -118,8 +117,6 @@ const validate = (value: unknown) => {
   const validation = useValidation(value, props.field)
   error.value = validation.error
 
-  console.log(validation)
-
   return validation.isValid
 }
 
@@ -139,10 +136,10 @@ watch(
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: #333;
+    color: var(--app-black-100);
 
     .required {
-      color: #ef4444;
+      color: var(--app-red-100);
       margin-left: 0.25rem;
     }
   }
@@ -157,19 +154,19 @@ watch(
     max-width: 100%;
     width: -webkit-fill-available;
     padding: 0.75rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--app-gray-100);
     border-radius: 0.375rem;
     font-size: 1rem;
     transition: border-color 0.2s;
 
     &:focus {
       outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      border-color: var(--app-blue-100);
+      box-shadow: 0 0 0 3px var(--app-shadow-100);
     }
 
     &:disabled {
-      background-color: #f3f4f6;
+      background-color: var(--app-gray-200);
       cursor: not-allowed;
     }
   }
@@ -203,7 +200,7 @@ watch(
 
   .field-error {
     margin-top: 0.25rem;
-    color: #ef4444;
+    color: var(--app-red-100);
     font-size: 0.875rem;
   }
 }

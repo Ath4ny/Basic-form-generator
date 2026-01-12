@@ -22,35 +22,9 @@ import { RouterView, RouterLink } from 'vue-router'
 </script>
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    sans-serif;
-  line-height: 1.6;
-  color: #333;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .navbar {
   padding: 1rem 0;
-  background-color: #667eea;
+  background-color: var(--app-navi-blue);
   .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -61,7 +35,7 @@ body {
   }
 
   .logo {
-    color: white;
+    color: var(--app-white-50);
     font-size: 1.5rem;
     font-weight: 700;
     text-decoration: none;
@@ -82,11 +56,11 @@ body {
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 0.375rem;
-    color: white;
+    color: var(--app-white-50);
 
     &.router-link-exact-active {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
+      background: var(--app-shadow-200);
+      color: var(--app-white-50);
     }
   }
 }

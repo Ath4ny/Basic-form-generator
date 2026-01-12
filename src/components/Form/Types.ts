@@ -21,7 +21,7 @@ export interface FormField {
 }
 
 export interface FormConfig {
-  id?: string
+  id: string // Needed for the store
   title?: string
   description?: string
   fields: FormField[]

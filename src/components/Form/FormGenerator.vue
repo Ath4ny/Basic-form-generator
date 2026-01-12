@@ -36,14 +36,8 @@
           {{ config.cancelButton.text }}
         </button>
 
-        <button
-          v-if="config.submitButton"
-          type="submit"
-          :disabled="submitting"
-          :class="['btn', 'btn-submit']"
-        >
-          <span v-if="submitting">Отправка...</span>
-          <span v-else>{{ config.submitButton.text }}</span>
+        <button v-if="config.submitButton" type="submit" :class="['btn', 'btn-submit']">
+          <span>{{ config.submitButton.text }}</span>
         </button>
       </div>
     </form>
@@ -58,7 +52,6 @@ import type { FormConfig, FormData } from './Types'
 interface Props {
   config: FormConfig
   modelValue: FormData
-  submitting?: boolean
 }
 
 interface Emits {
@@ -71,9 +64,7 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const form = ref<HTMLFormElement>()
-const formFieldRef = useTemplateRef<typeof FormField>('formField')
 const formData = reactive<FormData>({ ...props.modelValue })
-const submitting = ref(props.submitting || false)
 
 const initializeFormData = () => {
   props.config.fields.forEach((field) => {
@@ -135,18 +126,11 @@ watch(
   },
   { deep: true },
 )
-
-watch(
-  () => props.submitting,
-  (newValue) => {
-    submitting.value = newValue || false
-  },
-)
 </script>
 
 <style scoped lang="scss">
 .form-generator {
-  background: white;
+  background: var(--app-white-50);
   border-radius: 0.75rem;
   padding: 2rem;
 
@@ -156,12 +140,12 @@ watch(
     h2 {
       font-size: 1.5rem;
       font-weight: 600;
-      color: #1f2937;
+      color: var(--app-dark-blue-100);
       margin-bottom: 0.5rem;
     }
 
     .form-description {
-      color: #6b7280;
+      color: var(--app-gray-300);
       font-size: 0.875rem;
     }
   }
@@ -173,7 +157,7 @@ watch(
       gap: 1rem;
       margin-top: 2rem;
       padding-top: 1.5rem;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid var(--app-white-100);
 
       .btn {
         padding: 0.75rem 1.5rem;
@@ -186,7 +170,7 @@ watch(
 
         &:focus {
           outline: none;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+          box-shadow: 0 0 0 3px var(--app-shadow-100);
         }
 
         &:disabled {
@@ -196,20 +180,20 @@ watch(
       }
 
       .btn-cancel {
-        background-color: #f3f4f6;
+        background-color: var(--app-gray-200);
         color: #374151;
 
         &:hover:not(:disabled) {
-          background-color: #e5e7eb;
+          background-color: var(--app-white-100);
         }
       }
 
       .btn-submit {
-        background-color: #3b82f6;
-        color: white;
+        background-color: var(--app-blue-100);
+        color: var(--app-white-50);
 
         &:hover:not(:disabled) {
-          background-color: #2563eb;
+          background-color: var(--app-blue-200);
         }
       }
     }
