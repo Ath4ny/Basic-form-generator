@@ -1,22 +1,21 @@
 <template>
   <FormGenerator
+    v-model="formData"
     :config="formConfig"
-    :model-value="formData"
     @submit="saveToStore"
     @cancel="deleteFromStore"
-    @update:model-value="(value) => (formData = value)"
   >
     <template #password="slotProps">
       <div class="password-field">
         <div class="input-group">
           <input
+            class="password-input"
+            autocomplete="new-password"
+            placeholder="Введите пароль"
+            :value="slotProps.value"
             :id="slotProps.field.name"
             :type="showPassword ? 'text' : 'password'"
-            :value="slotProps.value"
-            autocomplete="new-password"
             @input="slotProps.updateValue($event)"
-            class="password-input"
-            placeholder="Введите пароль"
           />
           <button type="button" @click="showPassword = !showPassword" class="password-toggle">
             {{ showPassword ? '👁️' : '👁️‍🗨️' }}
@@ -176,7 +175,7 @@ onMounted(() => {
     &:focus {
       outline: none;
       border-color: var(--app-blue-100);
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+      box-shadow: 0 0 0 3px var(--app-shadow-300);
     }
   }
 
@@ -219,12 +218,12 @@ onMounted(() => {
     }
 
     &.medium {
-      background: #f59e0b;
+      background: var(--app-yellow-100);
       width: 66%;
     }
 
     &.strong {
-      background: #10b981;
+      background: var(--app-green-100);
       width: 100%;
     }
   }
@@ -238,11 +237,11 @@ onMounted(() => {
     }
 
     .medium & {
-      color: #f59e0b;
+      color: var(--app-yellow-100);
     }
 
     .strong & {
-      color: #10b981;
+      color: var(--app-green-100);
     }
   }
 }

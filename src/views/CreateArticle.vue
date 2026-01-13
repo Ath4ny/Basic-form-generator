@@ -1,10 +1,9 @@
 <template>
   <FormGenerator
+    v-model="formData"
     :config="formConfig"
-    :model-value="formData"
     @submit="saveToStore"
     @cancel="deleteFromStore"
-    @update:model-value="(value) => (formData = value)"
   ></FormGenerator>
 </template>
 <script setup lang="ts">

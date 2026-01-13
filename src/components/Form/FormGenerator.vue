@@ -30,8 +30,8 @@
         <button
           v-if="config.cancelButton"
           type="button"
-          @click="handleCancel"
           :class="['btn', 'btn-cancel']"
+          @click="handleCancel"
         >
           {{ config.cancelButton.text }}
         </button>

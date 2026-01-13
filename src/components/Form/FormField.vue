@@ -15,13 +15,13 @@
     <template v-else>
       <component
         v-if="field.type !== 'checkbox'"
+        class="field-input"
+        v-bind="fieldAttributes"
         :is="fieldComponent"
         :id="field.name"
-        v-bind="fieldAttributes"
         :value="value"
-        @input="updateValue"
         @change="updateValue"
-        class="field-input"
+        @input="updateValue"
       >
         <option v-if="field.type === 'select'" value="" disabled hidden>
           {{ field.placeholder || 'Выберите опцию' }}
@@ -35,9 +35,9 @@
 
       <div v-else class="checkbox">
         <input
-          :id="field.name"
-          type="checkbox"
           v-bind="fieldAttributes"
+          type="checkbox"
+          :id="field.name"
           :value="value"
           @input="updateValue"
           @change="updateValue"
