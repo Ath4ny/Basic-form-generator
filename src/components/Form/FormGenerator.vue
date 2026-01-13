@@ -10,23 +10,23 @@
     <form @submit.prevent="handleSubmit" ref="form" class="form-content">
       <FormField
         v-for="field in config.fields"
-        ref="formFieldRef"
         :key="field.name"
         :field="field"
         :value="formData[field.name]"
         @update:value="updateFieldValue(field.name, $event)"
       >
-        <template v-if="$slots[field.name]" #[field.name]="slotProps">
+        <template v-if="hasSlot(field.name)" #[field.name]="slotProps">
           <slot
             :name="field.name"
             :field="slotProps.field"
             :value="slotProps.value"
             :updateValue="slotProps.updateValue"
-          />
+          ></slot>
         </template>
       </FormField>
 
-      <div class="form-actions">
+      <slot v-if="$slots['form-actions']" name="form-actions" />
+      <div v-else class="form-actions">
         <button
           v-if="config.cancelButton"
           type="button"
@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive, useTemplateRef } from 'vue'
+import { ref, watch, reactive, useSlots } from 'vue'
 import FormField from './FormField.vue'
 import type { FormConfig, FormData } from './Types'
 
@@ -75,6 +75,11 @@ const initializeFormData = () => {
 }
 
 initializeFormData()
+
+const slots = useSlots()
+const hasSlot = (slotName: string) => {
+  return !!slots[slotName]
+}
 
 const updateFieldValue = (fieldName: string, value: any) => {
   formData[fieldName] = value

@@ -4,9 +4,9 @@
       <div class="container">
         <router-link to="/" class="logo">FormGenerator</router-link>
         <div class="nav-links">
-          <router-link to="/" class="nav-link">Home</router-link>
+          <router-link to="/" class="nav-link">Registration</router-link>
           <router-link to="/about" class="nav-link">About</router-link>
-          <router-link to="/createArticle" class="nav-link">Create Article</router-link>
+          <router-link to="/create-article" class="nav-link">Create Article</router-link>
         </div>
       </div>
     </nav>

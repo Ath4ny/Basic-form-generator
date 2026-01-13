@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/Home.vue'
+import Registration from '@/views/Registration.vue'
 import About from '@/views/About.vue'
 import CreateArticle from '@/views/CreateArticle.vue'
 import ErrorPage from '@/views/ErrorPage.vue'
@@ -9,8 +9,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'registration',
+      component: Registration,
     },
     {
       path: '/about',
@@ -18,7 +18,7 @@ const router = createRouter({
       component: About,
     },
     {
-      path: '/createArticle',
+      path: '/create-article',
       name: 'createArticle',
       component: CreateArticle,
     },
@@ -31,7 +31,7 @@ const router = createRouter({
 })
 
 const routeNamesMap = {
-  home: 'Домашняя страница',
+  registration: 'Регистрация',
   about: 'О вас',
   createArticle: 'Создание статьи',
 }

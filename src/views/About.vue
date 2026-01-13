@@ -1,9 +1,10 @@
 <template>
   <FormGenerator
-    @submit="saveToStore"
-    @cancel="deleteFromStore"
     :config="formConfig"
     :model-value="formData"
+    @submit="saveToStore"
+    @cancel="deleteFromStore"
+    @update:model-value="(value) => (formData = value)"
   ></FormGenerator>
 </template>
 <script setup lang="ts">
@@ -31,6 +32,7 @@ const formConfig: FormConfig = {
       type: 'input',
       label: 'Имя',
       placeholder: 'Имя',
+      attributes: { autocomplete: 'first-name' },
       validation: {
         minLength: 3,
         maxLength: 20,
@@ -41,6 +43,7 @@ const formConfig: FormConfig = {
       type: 'input',
       label: 'Фамилия',
       placeholder: 'Фамилия',
+      attributes: { autocomplete: 'last-name' },
       validation: {
         minLength: 3,
         maxLength: 20,
@@ -51,6 +54,7 @@ const formConfig: FormConfig = {
       type: 'input',
       label: 'Город',
       placeholder: 'Город проживания',
+      attributes: { autocomplete: 'city' },
     },
     {
       name: 'about',
@@ -83,10 +87,10 @@ const formConfig: FormConfig = {
 }
 
 const saveToStore = async (data: FormData) => {
+  formData.value = data
   await store.commit('saveFormData', {
     formId: formConfig.id,
     data: data,
-    isValid: true,
   })
 }
 

@@ -4,8 +4,15 @@
       {{ field.label || '' }}
       <span v-if="field.required" class="required">*</span>
     </label>
+    <slot
+      v-if="hasSlot"
+      :name="field.name"
+      :field="field"
+      :value="value"
+      :updateValue="updateValue"
+    ></slot>
 
-    <slot :field="field" :value="value" :updateValue="updateValue">
+    <template v-else>
       <component
         v-if="field.type !== 'checkbox'"
         :is="fieldComponent"
@@ -27,7 +34,6 @@
       </component>
 
       <div v-else class="checkbox">
-        <!-- Temporary solution to save styling consistency before checkbox component will be implemented -->
         <input
           :id="field.name"
           type="checkbox"
@@ -41,13 +47,13 @@
           <span v-if="field.required" class="required">*</span>
         </label>
       </div>
-    </slot>
+    </template>
     <div v-if="error" class="field-error">{{ error }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, useSlots } from 'vue'
 import type { FormField } from './Types'
 import useValidation from '@/composables/useFieldValidation'
 
@@ -62,7 +68,7 @@ interface Emits {
 
 const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
-
+const slots = useSlots()
 const error = ref<string>('')
 
 const fieldTypesMap = {
@@ -74,7 +80,9 @@ const fieldTypesMap = {
 const fieldComponent = computed(() => {
   return fieldTypesMap[props.field.type] || 'input'
 })
-
+const hasSlot = computed(() => {
+  return !!slots[props.field.name]
+})
 const fieldAttributes = computed(() => {
   const attrs: Record<string, any> = {
     name: props.field.name,
@@ -89,6 +97,7 @@ const fieldAttributes = computed(() => {
   } else if (props.field.type === 'input') {
     attrs.type = props.field.attributes?.type || 'text'
   }
+  attrs.autocomplete = props.field.attributes?.autocomplete || 'off'
 
   return attrs
 })

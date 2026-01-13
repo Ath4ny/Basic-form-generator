@@ -1,9 +1,10 @@
 <template>
   <FormGenerator
-    @submit="saveToStore"
-    @cancel="deleteFromStore"
     :config="formConfig"
     :model-value="formData"
+    @submit="saveToStore"
+    @cancel="deleteFromStore"
+    @update:model-value="(value) => (formData = value)"
   ></FormGenerator>
 </template>
 <script setup lang="ts">
@@ -33,6 +34,7 @@ const formConfig: FormConfig = {
       label: 'Название статьи',
       required: true,
       placeholder: 'Введите название статьи',
+      attributes: { autocomplete: 'article-name' },
       validation: {
         minLength: 3,
         maxLength: 20,
@@ -43,6 +45,7 @@ const formConfig: FormConfig = {
       type: 'input',
       label: 'Подзаголовок',
       placeholder: 'Введите подзаголовок статьи',
+      attributes: { autocomplete: 'subtitle' },
     },
     {
       name: 'articleText',
@@ -88,10 +91,10 @@ const formConfig: FormConfig = {
 }
 
 const saveToStore = async (data: FormData) => {
+  formData.value = data
   await store.commit('saveFormData', {
     formId: formConfig.id,
     data: data,
-    isValid: true,
   })
 }
 

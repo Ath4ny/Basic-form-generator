@@ -1,5 +1,5 @@
 import { createStore, Store } from 'vuex'
-import type { FormConfig, FormData } from '../components/Form/Types'
+import type { FormData } from '../components/Form/Types'
 
 import type { InjectionKey } from 'vue'
 export const key: InjectionKey<Store<FormState>> = Symbol()
@@ -9,7 +9,6 @@ export interface FormState {
     string,
     {
       data: FormData
-      isValid: boolean
     }
   >
 }
@@ -29,15 +28,13 @@ export const store = createStore<FormState>({
   },
 
   mutations: {
-    saveFormData(state: FormState, payload: { formId: string; data: FormData; isValid: boolean }) {
+    saveFormData(state: FormState, payload: { formId: string; data: FormData }) {
       if (!state.forms[payload.formId]) {
         state.forms[payload.formId] = {
           data: { ...payload.data },
-          isValid: payload.isValid,
         }
       } else {
         state.forms[payload.formId]!.data = { ...payload.data }
-        state.forms[payload.formId]!.isValid = payload.isValid
       }
     },
 
@@ -49,7 +46,7 @@ export const store = createStore<FormState>({
   },
 
   actions: {
-    saveForm(payload: { formId: string; data: FormData; isValid: boolean }) {
+    saveForm(payload: { formId: string; data: FormData }) {
       store.commit('saveFormData', payload)
     },
 
